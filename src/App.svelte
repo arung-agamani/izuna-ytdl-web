@@ -50,6 +50,15 @@
                 downloadInfoRef.fetchDownloadData();
             }
         } catch (error) {
+            if (error instanceof AxiosError) {
+                if (error.response.status === 400) {
+                    toast.push(error.response.data.message);
+                    return;
+                } else if (error.response.status === 429) {
+                    toast.push(error.response.data.message);
+                    return;
+                }
+            }
             toast.push("Something went wrong when downloading");
         }
     };
