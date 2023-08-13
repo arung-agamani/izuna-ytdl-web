@@ -1,6 +1,7 @@
 <script lang="ts">
     import izunaLogo from "./assets/favicon_izuna.png";
     import {
+        A,
         Navbar,
         NavBrand,
         NavHamburger,
@@ -21,6 +22,7 @@
     import DownloadInfo from "./components/DownloadInfo.svelte";
     import axios from "./lib/axios";
     import { AxiosError } from "axios";
+    import About from "./pages/About.svelte";
 
     const username = field("username", "", [required()]);
     const password = field("password", "", [required()]);
@@ -92,15 +94,13 @@
             <span class="text-xl font-bold">Izuna-YTDL</span>
         </NavBrand>
         <!-- <NavHamburger on:click={toggle} /> -->
-        <NavUl {hidden} />
     </Navbar>
-    <div class="container mx-auto">
-        <!-- <Toast>Awoo</Toast> -->
-        <p class="text-3xl text-center">
-            Download and Convert Youtube Videos on the fly~~
-        </p>
+    <div class="container mx-auto text-center">
         <Router {url}>
             <Route path="/">
+                <p class="text-3xl text-center">
+                    Download and Convert Youtube Videos on the fly~~
+                </p>
                 {#if $loggedIn}
                     <div class="container max-w-3xl mx-auto w-full">
                         <p class="text-xl text-center my-4">
@@ -149,8 +149,17 @@
                         <Button class="mt-2" type="submit">Login</Button>
                     </form>
                 {/if}
+                <Link to="about" class="text-center mx-auto w-full"
+                    ><A>About</A></Link
+                >
             </Route>
             <Route path="/signup"><Signup /></Route>
+            <Route path="/about"
+                ><About />
+                <Link to="/" class="text-center mx-auto w-full"
+                    ><A>Main Page</A></Link
+                >
+            </Route>
         </Router>
     </div>
 </main>
