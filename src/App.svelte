@@ -9,7 +9,7 @@
     import About from "./pages/About.svelte";
     import MainPage from "./components/MainPage.svelte";
 
-    export let url = "/";
+    export let url = "";
 </script>
 
 <SvelteToast />
