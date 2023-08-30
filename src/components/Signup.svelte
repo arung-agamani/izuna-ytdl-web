@@ -2,7 +2,7 @@
     import { Label, Input, Button } from "flowbite-svelte";
     import { field, form } from "svelte-forms";
     import { required } from "svelte-forms/validators";
-    import { Link, link } from "svelte-routing";
+    import { link } from "svelte-routing";
     import axios from "../lib/axios";
     import { toast } from "@zerodevx/svelte-toast";
     import { AxiosError } from "axios";

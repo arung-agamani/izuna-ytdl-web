@@ -1,28 +1,22 @@
 <script lang="ts">
-  import { Input, Label, Button } from "flowbite-svelte";
+  import { Input, Button } from "flowbite-svelte";
   import { A } from "flowbite-svelte";
   import DownloadInfo from "./DownloadInfo.svelte";
   import { Link } from "svelte-routing";
   import { form, field } from "svelte-forms";
   import { required } from "svelte-forms/validators";
-  import { loggedIn, login } from "../stores/auth";
+  import { loggedIn } from "../stores/auth";
   import axios from "../lib/axios";
   import Cookies from "js-cookie";
   import { toast } from "@zerodevx/svelte-toast";
   import { AxiosError } from "axios";
   import { onMount } from "svelte";
-
-  const username = field("username", "", [required()]);
-  const password = field("password", "", [required()]);
-  const loginForm = form(username, password);
-  const handleLogin = () => {
-    const data = loginForm.summary();
-    login(data.username, data.password);
-  };
+  import Login from "./Login.svelte";
 
   const urlField = field("url", "", [required()]);
   const downloadForm = form(urlField);
-  let downloadInfoRef;
+
+  let downloadInfoRef: DownloadInfo;
   const handleDownload = async () => {
     const data = downloadForm.summary();
     try {
@@ -91,28 +85,6 @@
     <DownloadInfo bind:this={downloadInfoRef} />
   </div>
 {:else}
-  <p class="text-xl text-center my-4">
-    You are not logged in. Please login first or <Link
-      class="text-blue-600 hover:text-blue-300 hover:cursor-pointer"
-      to="signup">signup</Link
-    >
-  </p>
-  <form class="max-w-2xl mx-auto" on:submit|preventDefault={handleLogin}>
-    <Label>Username</Label>
-    <Input
-      type="text"
-      id="username-input"
-      class="max-w-2xl mx-auto"
-      bind:value={$username.value}
-    />
-    <Label class="mt-2">Password</Label>
-    <Input
-      type="password"
-      id="password-input"
-      class="max-w-2xl mx-auto"
-      bind:value={$password.value}
-    />
-    <Button class="mt-2" type="submit">Login</Button>
-  </form>
+  <Login />
 {/if}
 <Link to="about" class="text-center mx-auto w-full"><A>About</A></Link>
