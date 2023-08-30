@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button, Accordion, AccordionItem, Badge } from "flowbite-svelte";
     import { onDestroy, onMount } from "svelte";
-    import { loggedIn, logout } from "../stores/auth";
+    import { getCurrentUser, loggedIn, logout } from "../stores/auth";
     import axios from "../lib/axios";
 
     let downloadData = null;
@@ -82,6 +82,7 @@
     };
 
     onMount(async () => {
+        await getCurrentUser();
         if (loggedIn) {
             fetchDownloadData();
         }

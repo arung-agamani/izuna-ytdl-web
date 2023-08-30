@@ -1,13 +1,15 @@
 import { toast } from "@zerodevx/svelte-toast"
-import axiosStatic from "axios"
+import axiosStatic, { AxiosHeaders } from "axios"
 import Cookies from "js-cookie"
 import { loggedIn } from "../stores/auth"
 
 const axios = axiosStatic.create({
     baseURL: "/api/",
-    headers: {
-        'X-CSRF-TOKEN': Cookies.get("csrf_access_token")
-    }
+})
+
+axios.interceptors.request.use((req) => {
+    req.headers.set("X-CSRF-TOKEN", Cookies.get("csrf_access_token"))
+    return req;
 })
 
 axios.interceptors.response.use((res) => {
