@@ -2,7 +2,7 @@
   import { Link } from "svelte-routing";
   import { Label, Input, Button } from "flowbite-svelte";
   import { form, field } from "svelte-forms";
-  import { login } from "../stores/auth";
+  import { getCurrentUser, login } from "../stores/auth";
   import { required } from "svelte-forms/validators";
   import { toast } from "@zerodevx/svelte-toast";
 
@@ -18,7 +18,7 @@
     }
 
     const data = loginForm.summary();
-    login(data.username, data.password);
+    await login(data.username, data.password);
   };
 </script>
 

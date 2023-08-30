@@ -31,17 +31,17 @@
         required(),
         pattern(/[A-Z]{32}/),
     ]);
-    const register = form(username, password, signupCode, confirmPassword);
-    const handleLogin = async () => {
+    const registerForm = form(username, password, signupCode, confirmPassword);
+    const handleRegister = async () => {
         try {
-            await register.validate();
-            if (!$register.valid) {
-                console.error("invalid form", $register.errors);
+            await registerForm.validate();
+            if (!$registerForm.valid) {
+                console.error("invalid form", $registerForm.errors);
                 toast.push("Invalid form", {});
                 return;
             }
 
-            const data = register.summary();
+            const data = registerForm.summary();
             console.log(data);
             const res = await axios.post("user/register", data);
             toast.push("Registration complete!");
@@ -79,7 +79,7 @@
         use:link>Back to main page</a
     >
 </p>
-<form class="max-w-2xl mx-auto" on:submit|preventDefault={handleLogin}>
+<form class="max-w-2xl mx-auto" on:submit|preventDefault={handleRegister}>
     <div>
         <Label>Username - 3 characters minimal, only lowercase alphabet</Label>
         <Input

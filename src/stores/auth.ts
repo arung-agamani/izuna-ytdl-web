@@ -29,7 +29,7 @@ export const login = async (username: string, password: string) => {
 
 export const logout = async () => {
     try {
-        const res = await axios.post("user/logout")
+        const res = await axios.post("user/logout", {}, {withCredentials: true})
         loggedIn.set(false)
         toast.push(res.data.message)
     } catch (error) {
