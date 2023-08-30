@@ -4,11 +4,19 @@
   import { form, field } from "svelte-forms";
   import { login } from "../stores/auth";
   import { required } from "svelte-forms/validators";
+  import { toast } from "@zerodevx/svelte-toast";
 
   const username = field("username", "", [required()]);
   const password = field("password", "", [required()]);
   const loginForm = form(username, password);
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    await loginForm.validate();
+    if (!$loginForm.valid) {
+      console.error("invalid form", $loginForm.errors);
+      toast.push("Invalid form", {});
+      return;
+    }
+
     const data = loginForm.summary();
     login(data.username, data.password);
   };

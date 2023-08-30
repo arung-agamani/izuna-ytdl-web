@@ -5,9 +5,9 @@
     import { Router, Link, Route } from "svelte-routing";
 
     // Pages and Components
-    import Signup from "./components/Signup.svelte";
+    import Signup from "./pages/Signup.svelte";
     import About from "./pages/About.svelte";
-    import MainPage from "./components/MainPage.svelte";
+    import MainPage from "./pages/MainPage.svelte";
 
     export let url = "";
 </script>

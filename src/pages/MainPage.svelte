@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Input, Button } from "flowbite-svelte";
   import { A } from "flowbite-svelte";
-  import DownloadInfo from "./DownloadInfo.svelte";
+  import DownloadInfo from "../components/DownloadInfo.svelte";
   import { Link } from "svelte-routing";
   import { form, field } from "svelte-forms";
   import { required } from "svelte-forms/validators";
@@ -11,7 +11,7 @@
   import { toast } from "@zerodevx/svelte-toast";
   import { AxiosError } from "axios";
   import { onMount } from "svelte";
-  import Login from "./Login.svelte";
+  import Login from "../components/Login.svelte";
 
   const urlField = field("url", "", [required()]);
   const downloadForm = form(urlField);
