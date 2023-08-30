@@ -2,7 +2,7 @@
   import { Link } from "svelte-routing";
   import { Label, Input, Button } from "flowbite-svelte";
   import { form, field } from "svelte-forms";
-  import { loggedIn, login } from "../stores/auth";
+  import { login } from "../stores/auth";
   import { required } from "svelte-forms/validators";
 
   const username = field("username", "", [required()]);

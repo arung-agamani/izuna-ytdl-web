@@ -5,7 +5,7 @@
   import { Link } from "svelte-routing";
   import { form, field } from "svelte-forms";
   import { required } from "svelte-forms/validators";
-  import { loggedIn } from "../stores/auth";
+  import { getCurrentUser, loggedIn, userInfo } from "../stores/auth";
   import axios from "../lib/axios";
   import Cookies from "js-cookie";
   import { toast } from "@zerodevx/svelte-toast";
@@ -45,21 +45,7 @@
   };
 
   onMount(async () => {
-    try {
-      const res = await axios.get("user/me", { withCredentials: true });
-      loggedIn.set(true);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        if (error.response.status !== 401) {
-          // excempt unauthorized error from showing toast
-          toast.push("Error on getting user/me endpoint");
-          console.error(error);
-        } else {
-          toast.push("You're not logged in. Please (re)login");
-        }
-      }
-      loggedIn.set(false);
-    }
+    await getCurrentUser();
   });
 </script>
 
@@ -68,6 +54,9 @@
 </p>
 {#if $loggedIn}
   <div class="container max-w-3xl mx-auto w-full">
+    <p class="text-xl text-center my-4">
+      Welcome {$userInfo.identity}
+    </p>
     <p class="text-xl text-center my-4">
       Input valid Youtube video URL here and let us do the ninjutsu behind the
       screen
