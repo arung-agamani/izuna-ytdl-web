@@ -2,7 +2,7 @@
     import { Button, Accordion, AccordionItem, Badge } from "flowbite-svelte";
     import { onDestroy, onMount } from "svelte";
     import { getCurrentUser, loggedIn, logout } from "../stores/auth";
-    import axios from "../lib/axios";
+    import apiAxios from "../lib/axios";
     import DownloadItem from "./DownloadItem.svelte";
 
     let downloadData = null;
@@ -20,9 +20,7 @@
 
     export const fetchDownloadData = async () => {
         try {
-            const { data: res } = await axios.get("downloader/tasks", {
-                withCredentials: true,
-            });
+            const { data: res } = await apiAxios.get("downloader/tasks");
             downloadData = res;
             console.log(res);
             const sortedData = downloadData as Array<Task>;

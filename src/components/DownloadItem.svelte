@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Button, Accordion, AccordionItem, Badge, P } from "flowbite-svelte";
-  import axios from "../lib/axios";
+  import apiAxios from "../lib/axios";
 
   export let item: {
     downloaded_bytes: number | undefined;
@@ -22,9 +22,7 @@
 
   const downloadFile = async (id: string, name: string) => {
     try {
-      const { data: res } = await axios.get(`downloader/retrieve?id=${id}`, {
-        withCredentials: true,
-      });
+      const { data: res } = await apiAxios.get(`downloader/retrieve?id=${id}`);
       downloadURI(res, name);
     } catch (error) {
       alert("Error happened when fetching user's downloaded info");

@@ -6,7 +6,7 @@
   import { form, field } from "svelte-forms";
   import { required } from "svelte-forms/validators";
   import { getCurrentUser, loggedIn, userInfo } from "../stores/auth";
-  import axios from "../lib/axios";
+  import apiAxios from "../lib/axios";
   import Cookies from "js-cookie";
   import { toast } from "@zerodevx/svelte-toast";
   import { AxiosError } from "axios";
@@ -20,12 +20,7 @@
   const handleDownload = async () => {
     const data = downloadForm.summary();
     try {
-      const { data: res } = await axios.post("downloader/download", data, {
-        withCredentials: true,
-        headers: {
-          "X-CSRF-TOKEN": Cookies.get("csrf_access_token"),
-        },
-      });
+      const { data: res } = await apiAxios.post("downloader/download", data);
       toast.push(res.message);
       if (downloadInfoRef) {
         downloadInfoRef.fetchDownloadData();
