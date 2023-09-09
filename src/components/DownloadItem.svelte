@@ -2,9 +2,16 @@
   import { Button, Accordion, AccordionItem, Badge, P } from "flowbite-svelte";
   import axios from "../lib/axios";
 
-  export let item;
+  export let item: {
+    downloaded_bytes: number | undefined;
+    total_bytes: number | undefined;
+    state: string;
+    title: string;
+    url: string;
+    id: string;
+  };
 
-  function downloadURI(uri, name) {
+  function downloadURI(uri: string, name: string) {
     var link = document.createElement("a");
     link.download = name;
     link.href = uri;
@@ -29,7 +36,7 @@
   $: if (item.downloaded_bytes === null) {
     percent = 0;
   } else {
-    percent = (item.downloaded_bytes / item.item.total_bytes) * 100;
+    percent = (item.downloaded_bytes / item.total_bytes) * 100;
   }
   $: pStr = parseFloat(`${percent}`).toFixed(2);
 </script>

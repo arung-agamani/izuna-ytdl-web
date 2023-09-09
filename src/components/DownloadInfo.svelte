@@ -20,11 +20,12 @@
 
     export const fetchDownloadData = async () => {
         try {
-            const { data: res } = await axios.get("downloader/info", {
+            const { data: res } = await axios.get("downloader/tasks", {
                 withCredentials: true,
             });
             downloadData = res;
-            const sortedData = downloadData.data as Array<Task>;
+            console.log(res);
+            const sortedData = downloadData as Array<Task>;
             sortedData.sort((a, b) => {
                 const da = new Date(a.created_at).getTime();
                 const db = new Date(b.created_at).getTime();
@@ -32,9 +33,10 @@
                 if (da == db) return 0;
                 if (da < db) return 1;
             });
+            sortedData.reverse();
             lastSync = new Date();
             // check if there is pending state
-            const tasks = downloadData.data as Array<Task>;
+            const tasks = downloadData as Array<Task>;
             if (tasks.find((x) => x.state === "1")) {
                 setTimeout(() => {
                     fetchDownloadData();
@@ -83,9 +85,9 @@
         </Button>
     </div>
 
-    {#if downloadData && downloadData.data.length > 0}
+    {#if downloadData && downloadData.length > 0}
         <Accordion>
-            {#each downloadData.data as item}
+            {#each downloadData as item}
                 <DownloadItem {item} />
             {/each}
         </Accordion>
