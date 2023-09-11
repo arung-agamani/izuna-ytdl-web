@@ -1,18 +1,20 @@
 import { toast } from "@zerodevx/svelte-toast"
-import axiosStatic, { AxiosHeaders } from "axios"
-import Cookies from "js-cookie"
+import axiosStatic from "axios"
 import { loggedIn } from "../stores/auth"
 
-const axios = axiosStatic.create({
+const apiAxios = axiosStatic.create({
     baseURL: "/api/",
 })
 
-axios.interceptors.request.use((req) => {
-    req.headers.set("X-CSRF-TOKEN", Cookies.get("csrf_access_token"))
+apiAxios.interceptors.request.use((req) => {
+    const accessToken = localStorage.getItem("access_token")
+    if (accessToken != null) {
+        req.headers.set("Authorization", `Bearer ${accessToken}`)
+    }
     return req;
 })
 
-axios.interceptors.response.use((res) => {
+apiAxios.interceptors.response.use((res) => {
     if (res.status === 401) {
         toast.push("Login credential error. Please relogin")
         loggedIn.set(false)
@@ -20,4 +22,4 @@ axios.interceptors.response.use((res) => {
     return res
 })
 
-export default axios
+export default apiAxios

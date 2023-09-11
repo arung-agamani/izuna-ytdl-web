@@ -1,17 +1,21 @@
 import { writable } from "svelte/store";
-import axios from "../lib/axios";
+import apiAxios from "../lib/axios";
 import { toast } from "@zerodevx/svelte-toast";
 import { AxiosError } from "axios";
 
-export const store = writable(null);
 export const loggedIn = writable(false);
-export const userInfo = writable({identity: ""});
+export const userInfo = writable({username: ""});
 
 export const login = async (username: string, password: string) => {
     try {
-        const res = await axios.post("user/login", { username, password })
+        let body = new FormData();
+        body.append("grant_type", "password")
+        body.append("username", username)
+        body.append("password", password)
+        const res = await apiAxios.post("user/token", body)
+        const access_token = res.data.access_token;
+        localStorage.setItem("access_token", access_token)
         loggedIn.set(true)
-        // toast.push("Logged in!")
     } catch (error) {
         console.error(error)
         loggedIn.set(false)
@@ -29,9 +33,10 @@ export const login = async (username: string, password: string) => {
 
 export const logout = async () => {
     try {
-        const res = await axios.post("user/logout", {}, {withCredentials: true})
+        const res = await apiAxios.post("user/logout", {})
+        localStorage.setItem("access_token", null)
         loggedIn.set(false)
-        toast.push(res.data.message)
+        toast.push("Logged out successfully")
     } catch (error) {
         console.error(error)
         if (error instanceof AxiosError) {
@@ -44,13 +49,13 @@ export const logout = async () => {
 
 export const getCurrentUser = async() => {
     try {
-      const res = await axios.get("user/me", { withCredentials: true });
+      const res = await apiAxios.get("user/me");
       userInfo.set(res.data);
       loggedIn.set(true);
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response.status !== 401) {
-          // excempt unauthorized error from showing toast
+          // excempt unauthorized error from sowing toast
           toast.push("Error on getting user/me endpoint");
           console.error(error);
           // } else {

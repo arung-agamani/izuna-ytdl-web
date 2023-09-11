@@ -3,7 +3,7 @@
     import { field, form } from "svelte-forms";
     import { pattern, required } from "svelte-forms/validators";
     import { link, navigate } from "svelte-routing";
-    import axios from "../lib/axios";
+    import apiAxios from "../lib/axios";
     import { toast } from "@zerodevx/svelte-toast";
     import { AxiosError } from "axios";
     import FieldValidationHelper from "../components/FieldValidationHelper.svelte";
@@ -43,7 +43,7 @@
 
             const data = registerForm.summary();
             console.log(data);
-            const res = await axios.post("user/register", data);
+            const res = await apiAxios.post("user/register", data);
             toast.push("Registration complete!");
             navigate("/");
         } catch (error) {
