@@ -50,7 +50,7 @@
 {#if $loggedIn}
   <div class="container max-w-3xl mx-auto w-full">
     <p class="text-xl text-center my-4">
-      Welcome {$userInfo.identity}
+      Welcome {$userInfo.username}
     </p>
     <p class="text-xl text-center my-4">
       Input valid Youtube video URL here and let us do the ninjutsu behind the

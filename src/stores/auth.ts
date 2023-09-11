@@ -4,7 +4,7 @@ import { toast } from "@zerodevx/svelte-toast";
 import { AxiosError } from "axios";
 
 export const loggedIn = writable(false);
-export const userInfo = writable({identity: ""});
+export const userInfo = writable({username: ""});
 
 export const login = async (username: string, password: string) => {
     try {
