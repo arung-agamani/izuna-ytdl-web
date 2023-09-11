@@ -49,7 +49,7 @@
                 }, 5000);
                 pollLock.set(pendingTimeout)
             } else {
-                pendingTimeout.set(null)
+                pollLock.set(null)
             }
         } catch (error) {
             alert("Error happened when fetching user's donwloaded info");
