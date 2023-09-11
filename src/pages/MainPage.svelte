@@ -31,7 +31,7 @@
           toast.push(error.response.data.message);
           return;
         } else if (error.response.status === 429) {
-          toast.push(error.response.data.message);
+          toast.push(error.response.data.detail);
           return;
         }
       }

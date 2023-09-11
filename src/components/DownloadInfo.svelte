@@ -1,7 +1,9 @@
 <script lang="ts">
     import { Button, Accordion, AccordionItem, Badge } from "flowbite-svelte";
     import { onDestroy, onMount } from "svelte";
+    import { get } from "svelte/store"
     import { getCurrentUser, loggedIn, logout } from "../stores/auth";
+    import { pollLock } from "../stores/poll"
     import apiAxios from "../lib/axios";
     import DownloadItem from "./DownloadItem.svelte";
 
@@ -19,10 +21,12 @@
     }
 
     export const fetchDownloadData = async () => {
+        if (get(pollLock)) {
+            return
+        }
         try {
             const { data: res } = await apiAxios.get("downloader/tasks");
             downloadData = res;
-            console.log(res);
             const sortedData = downloadData as Array<Task>;
             sortedData.sort((a, b) => {
                 const da = new Date(a.created_at).getTime();
@@ -36,13 +40,21 @@
             // check if there is pending state
             const tasks = downloadData as Array<Task>;
             if (tasks.find((x) => x.state === "1")) {
-                setTimeout(() => {
+                const pendingTimeout = setTimeout(() => {
+                    pollLock.set(null)
                     fetchDownloadData();
-                }, 2000);
+                    // console.log("Setting lock to false")
+                    // pollLock.set(false)
+                    // console.log(get(pollLock))
+                }, 5000);
+                pollLock.set(pendingTimeout)
+            } else {
+                pendingTimeout.set(null)
             }
         } catch (error) {
             alert("Error happened when fetching user's donwloaded info");
             console.error(error);
+            pollLock.set(null)
         }
     };
 
