@@ -27,7 +27,7 @@
         await confirmPassword.validate();
     });
 
-    const signupCode = field("signup_code", "", [
+    const signupCode = field("signin_code", "", [
         required(),
         pattern(/[A-Z]{32}/),
     ]);
